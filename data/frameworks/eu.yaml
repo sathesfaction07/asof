@@ -1,0 +1,58 @@
+framework: EU
+title: European Union — product conformity (illustrative, not legal advice)
+
+# This framework deliberately contains a GAP: nothing is in force between 2024-01-01 and
+# 2025-01-01. That is legal in this schema, and it is also the shape a typo produces. A
+# check inside the gap returns NO_RULES rather than "compliant", which is the whole point
+# of having that outcome. `compliance-check frameworks` reports the gap explicitly.
+
+versions:
+  - version: "2022.1"
+    effective_from: 2022-01-01
+    effective_until: 2024-01-01
+    notes: Lapsed. The successor did not take effect for a year.
+    requirements:
+      - id: EU-CE-01
+        title: A conformity marking must be declared
+        severity: critical
+        assert: { op: present, field: conformity_mark }
+
+      - id: EU-REP-01
+        title: An authorised representative in the union must be named
+        severity: major
+        assert: { op: present, field: eu_representative }
+
+  - version: "2025.1"
+    effective_from: 2025-01-01
+    notes: Current.
+    requirements:
+      - id: EU-CE-01
+        title: A conformity marking must be declared
+        severity: critical
+        assert: { op: present, field: conformity_mark }
+
+      - id: EU-REP-01
+        title: An authorised representative in the union must be named
+        severity: major
+        assert: { op: present, field: eu_representative }
+
+      - id: EU-LANG-01
+        title: Safety information must be supplied in at least two official languages
+        severity: major
+        assert: { op: min, field: language_count, value: 2 }
+
+      - id: EU-CHEM-01
+        title: Restricted substances must be declared as absent
+        severity: critical
+        applies_to:
+          category: [toys, apparel, cosmetics]
+        assert:
+          op: all_of
+          of:
+            - { op: not_equals, field: restricted_substances, value: "unknown" }
+            - { op: equals, field: restricted_substances, value: "none" }
+
+      - id: EU-PACK-01
+        title: Packaging recyclability should be stated
+        severity: advisory
+        assert: { op: present, field: packaging_recyclable }

@@ -1,0 +1,9 @@
+record_id,category,country_of_origin,certificate_number,certificate_expiry,small_parts,age_min_months,battery_type,instruction_manual,conformity_mark,eu_representative,language_count,restricted_substances,safety_mark,importer_of_record,voltage
+R-1,toys,Vietnam,US-123456,2027-03-01,false,36,,included,CE,Rep GmbH,3,none,circle,Imports KK,100
+R-2,toys,Vietnam,US-234567,2027-03-01,true,24,,included,CE,Rep GmbH,2,none,circle,Imports KK,100
+R-3,electronics,,US-345678,2027-01-01,,,lithium-ion,included,CE,Rep GmbH,2,none,diamond,Imports KK,100
+R-4,apparel,India,US-456789,,false,,,included,CE,Rep GmbH,2,unknown,exempt,Imports KK,
+R-5,,Mexico,US-567890,2027-06-01,false,48,,included,CE,Rep GmbH,2,none,circle,Imports KK,110
+R-6,furniture,Poland,US-678901,2028-01-01,,,,included,CE,Rep GmbH,4,none,exempt,Imports KK,
+R-7,toys,China,us-789012,2027-01-01,false,48,,included,CE,Rep GmbH,2,none,circle,Imports KK,100
+R-8,electronics,Korea,US-890123,2027-01-01,,,lithium-metal,,CE,,1,none,diamond,,240

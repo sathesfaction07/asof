@@ -1,0 +1,134 @@
+framework: US
+title: United States — consumer product safety (illustrative, not legal advice)
+
+versions:
+  - version: "2023.1"
+    effective_from: 2023-01-01
+    effective_until: 2024-07-01
+    notes: >
+      Superseded by 2024.1. Kept so that a record checked in 2023 can still be replayed
+      against the rules that actually applied at the time.
+    requirements:
+      - id: US-LABEL-01
+        title: Country of origin must be declared
+        severity: major
+        citation: illustrative
+        assert: { op: present, field: country_of_origin }
+
+      - id: US-CERT-01
+        title: Certificate number must be present
+        severity: critical
+        assert: { op: present, field: certificate_number }
+
+      - id: US-TOY-AGE-01
+        title: Toys with small parts must be labelled 36 months or older
+        severity: critical
+        applies_to:
+          category: toys
+        assert:
+          op: any_of
+          of:
+            - { op: equals, field: small_parts, value: false }
+            - { op: min, field: age_min_months, value: 36 }
+
+  - version: "2024.1"
+    effective_from: 2024-07-01
+    effective_until: 2026-01-01
+    notes: >
+      Adds a format requirement for certificate numbers and a battery restriction. The
+      certificate format rule is the reason 2023.1 and 2024.1 give different verdicts for
+      the same record, which is what makes the as-of date matter.
+    requirements:
+      - id: US-LABEL-01
+        title: Country of origin must be declared
+        severity: major
+        citation: illustrative
+        assert: { op: present, field: country_of_origin }
+
+      - id: US-CERT-01
+        title: Certificate number must be present
+        severity: critical
+        assert: { op: present, field: certificate_number }
+
+      - id: US-CERT-02
+        title: Certificate number must match the two-letter, six-digit format
+        severity: critical
+        assert: { op: matches, field: certificate_number, value: "^[A-Z]{2}-[0-9]{6}$" }
+
+      - id: US-CERT-03
+        title: Certificate must not have expired before the framework took effect
+        severity: major
+        assert: { op: after, field: certificate_expiry, value: 2024-07-01 }
+
+      - id: US-TOY-AGE-01
+        title: Toys with small parts must be labelled 36 months or older
+        severity: critical
+        applies_to:
+          category: toys
+        assert:
+          op: any_of
+          of:
+            - { op: equals, field: small_parts, value: false }
+            - { op: min, field: age_min_months, value: 36 }
+
+      - id: US-BATT-01
+        title: Lithium-metal cells are not permitted in consumer electronics
+        severity: critical
+        applies_to:
+          category: [electronics, appliances]
+        assert:
+          op: none_of
+          of:
+            - { op: equals, field: battery_type, value: lithium-metal }
+
+      - id: US-DOC-01
+        title: An instruction manual is recommended
+        severity: advisory
+        assert: { op: present, field: instruction_manual }
+
+  - version: "2026.1"
+    effective_from: 2026-01-01
+    notes: >
+      Current. Raises the toy age threshold to 48 months and makes the instruction manual
+      binding rather than advisory.
+    requirements:
+      - id: US-LABEL-01
+        title: Country of origin must be declared
+        severity: major
+        assert: { op: present, field: country_of_origin }
+
+      - id: US-CERT-01
+        title: Certificate number must be present
+        severity: critical
+        assert: { op: present, field: certificate_number }
+
+      - id: US-CERT-02
+        title: Certificate number must match the two-letter, six-digit format
+        severity: critical
+        assert: { op: matches, field: certificate_number, value: "^[A-Z]{2}-[0-9]{6}$" }
+
+      - id: US-TOY-AGE-01
+        title: Toys with small parts must be labelled 48 months or older
+        severity: critical
+        applies_to:
+          category: toys
+        assert:
+          op: any_of
+          of:
+            - { op: equals, field: small_parts, value: false }
+            - { op: min, field: age_min_months, value: 48 }
+
+      - id: US-BATT-01
+        title: Lithium-metal cells are not permitted in consumer electronics
+        severity: critical
+        applies_to:
+          category: [electronics, appliances]
+        assert:
+          op: none_of
+          of:
+            - { op: equals, field: battery_type, value: lithium-metal }
+
+      - id: US-DOC-01
+        title: An instruction manual must be supplied
+        severity: major
+        assert: { op: present, field: instruction_manual }

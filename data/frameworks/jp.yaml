@@ -1,0 +1,31 @@
+framework: JP
+title: Japan — product safety (illustrative, not legal advice)
+
+# A single open-ended version. The simplest possible shape, kept as a contrast to US
+# (three versions, two transitions) and EU (a gap).
+
+versions:
+  - version: "2024.1"
+    effective_from: 2024-04-01
+    notes: Current, no successor scheduled.
+    requirements:
+      - id: JP-PSE-01
+        title: A safety marking category must be declared
+        severity: critical
+        assert: { op: one_of, field: safety_mark, value: [diamond, circle, exempt] }
+
+      - id: JP-IMP-01
+        title: An importer of record must be named
+        severity: major
+        assert: { op: present, field: importer_of_record }
+
+      - id: JP-VOLT-01
+        title: Mains voltage must be within the domestic range
+        severity: critical
+        applies_to:
+          category: [electronics, appliances]
+        assert:
+          op: all_of
+          of:
+            - { op: min, field: voltage, value: 90 }
+            - { op: max, field: voltage, value: 110 }

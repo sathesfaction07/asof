@@ -1,0 +1,29 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: check-merge-conflict
+
+  - repo: local
+    hooks:
+      # Rule files are data that decides verdicts, so a malformed one must not reach a
+      # commit. This is the same validation the loader does, run as a gate.
+      - id: rule-files-load
+        name: rule files load and validate
+        entry: python -c "import sys; from pathlib import Path; sys.path.insert(0, 'src'); from compliance_check.rules.loader import load_directory; print(sorted(load_directory(Path('data/frameworks'))))"
+        language: system
+        pass_filenames: false
+        files: ^data/frameworks/.*\.ya?ml$
