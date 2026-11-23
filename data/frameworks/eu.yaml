@@ -4,7 +4,7 @@ title: European Union — product conformity (illustrative, not legal advice)
 # This framework deliberately contains a GAP: nothing is in force between 2024-01-01 and
 # 2025-01-01. That is legal in this schema, and it is also the shape a typo produces. A
 # check inside the gap returns NO_RULES rather than "compliant", which is the whole point
-# of having that outcome. `compliance-check frameworks` reports the gap explicitly.
+# of having that outcome. `asof frameworks` reports the gap explicitly.
 
 versions:
   - version: "2022.1"

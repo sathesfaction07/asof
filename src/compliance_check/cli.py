@@ -56,7 +56,7 @@ def _parse_as_of(value: str | None) -> date:
 
 
 @click.group()
-@click.version_option(__version__, prog_name="compliance-check")
+@click.version_option(__version__, prog_name="asof")
 def main() -> None:
     """Check records against versioned, dated rule sets.
 

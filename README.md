@@ -1,4 +1,4 @@
-# ComplianceCheck
+# AsOf
 
 Evaluates structured records against regulatory rule sets that are versioned by **effective date**, so a check answers "was this compliant under framework F according to the rules in force on date D" rather than "is this compliant now". Every check is written to an append-only audit log carrying the inputs and a content digest of the rules, which makes the log replayable.
 
@@ -107,22 +107,22 @@ bash setup.sh                 # asserts real behaviour, not just install
 bash setup.sh --excel
 source .venv/bin/activate
 
-compliance-check doctor
-compliance-check frameworks
+asof doctor
+asof frameworks
 
 # One record, explored on the command line. Nothing is logged.
-compliance-check one T-1 --category toys -f US --as-of 2025-06-01 \
+asof one T-1 --category toys -f US --as-of 2025-06-01 \
     -a country_of_origin=Vietnam -a certificate_number=US-234567 \
     -a small_parts=true -a age_min_months=36 -a instruction_manual=included
 
 # A batch. Exits non-zero unless everything is cleanly compliant.
-compliance-check run -i data/sample_records.csv -f US --as-of 2025-06-01 -o out/
+asof run -i data/sample_records.csv -f US --as-of 2025-06-01 -o out/
 
 # Re-run every logged check against the current rules.
-compliance-check replay
+asof replay
 ```
 
-`compliance-check frameworks` on the shipped data:
+`asof frameworks` on the shipped data:
 
 ```
 EU  European Union — product conformity (illustrative, not legal advice)
@@ -140,12 +140,12 @@ US  United States — consumer product safety (illustrative, not legal advice)
 And the point of the whole project — the **same record**, two dates:
 
 ```
-$ compliance-check one R-2 --category toys --as-of 2025-06-01 ...
+$ asof one R-2 --category toys --as-of 2025-06-01 ...
 rules     v2024.1  1d47766a004acef2
 outcome   compliant
   pass   critical US-TOY-AGE-01 small_parts='true' vs False; age_min_months=36 >= 36
 
-$ compliance-check one R-2 --category toys --as-of 2026-06-01 ...
+$ asof one R-2 --category toys --as-of 2026-06-01 ...
 rules     v2026.1  74bff8160a4bf93d
 outcome   non_compliant
   fail   critical US-TOY-AGE-01 small_parts='true' vs False; age_min_months=36 < 48

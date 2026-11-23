@@ -319,14 +319,14 @@ Setup complete.
 
   source .venv/bin/activate
 
-  compliance-check doctor
-  compliance-check frameworks
-  compliance-check one T-1 --category toys -f US --as-of 2025-06-01 \
+  asof doctor
+  asof frameworks
+  asof one T-1 --category toys -f US --as-of 2025-06-01 \
       -a country_of_origin=Vietnam -a certificate_number=US-123456 \
       -a certificate_expiry=2027-03-01 -a small_parts=false -a instruction_manual=included
 
-  compliance-check run -i data/sample_records.csv -f US --as-of 2025-06-01 -o out/
-  compliance-check replay
+  asof run -i data/sample_records.csv -f US --as-of 2025-06-01 -o out/
+  asof replay
 
 `run` and `one` exit non-zero unless every record is cleanly compliant, so they work as
 pipeline steps. `replay` exits non-zero ONLY when identical rules produce a different

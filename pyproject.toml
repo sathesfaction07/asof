@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "compliance-check"
+name = "asof"
 version = "0.1.0"
 description = "Evaluates structured records against versioned, dated regulatory rule sets with a reproducible audit log"
 readme = "README.md"
@@ -24,7 +24,7 @@ dev = [
 ]
 
 [project.scripts]
-compliance-check = "compliance_check.cli:main"
+asof = "compliance_check.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/compliance_check"]

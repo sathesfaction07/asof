@@ -1,8 +1,8 @@
-# ComplianceCheck — Technical Architecture
+# AsOf — Technical Architecture
 
 ## Overview
 
-ComplianceCheck evaluates structured records against regulatory rule sets that are versioned by effective date. A verdict is always tied to a framework, an as-of date, and a content digest of the rules that produced it — which is what makes the audit log replayable rather than merely readable.
+AsOf evaluates structured records against regulatory rule sets that are versioned by effective date. A verdict is always tied to a framework, an as-of date, and a content digest of the rules that produced it — which is what makes the audit log replayable rather than merely readable.
 
 **Design principle:** everything that decides a verdict is either code in this repository or data in `data/frameworks/`. There is no model in the path, deliberately, because a compliance verdict has to be reproducible from its inputs and attributable to a cited requirement.
 
@@ -12,7 +12,7 @@ ComplianceCheck evaluates structured records against regulatory rule sets that a
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                          CLI (compliance-check)                               │
+│                          CLI (asof)                               │
 │                                                                              │
 │  ┌───────────┐ ┌───────────┐ ┌────────────┐ ┌───────────┐ ┌───────────────┐ │
 │  │ run       │ │ one       │ │ frameworks │ │ replay    │ │ doctor        │ │
@@ -212,7 +212,7 @@ The consequence mattered more than the fix. `replay` is a CI gate, and a gate th
 ## Data Flow
 
 ```
-1.  compliance-check run -i data/sample_records.csv -f US --as-of 2025-06-01 -o out/
+1.  asof run -i data/sample_records.csv -f US --as-of 2025-06-01 -o out/
 2.  CLI drops None overrides -> Settings(rules_dir=..., framework="US", ...)
 3.  Registry.from_directory  -> load each YAML, validate, reject overlaps
 4.  load_records()           -> 8 Records; blank cells dropped
@@ -276,11 +276,11 @@ bash setup.sh                 # asserts behaviour before finishing
 bash setup.sh --excel
 source .venv/bin/activate
 
-compliance-check doctor
-compliance-check frameworks
-compliance-check one R-2 --category toys -f US --as-of 2025-06-01 -a small_parts=true ...
-compliance-check run -i data/sample_records.csv -f US --as-of 2025-06-01 -o out/
-compliance-check replay
+asof doctor
+asof frameworks
+asof one R-2 --category toys -f US --as-of 2025-06-01 -a small_parts=true ...
+asof run -i data/sample_records.csv -f US --as-of 2025-06-01 -o out/
+asof replay
 ```
 
 `setup.sh` does more than install. It asserts: the shipped rule files load with the documented shapes including the EU gap; the same record gets different verdicts on 2025-06-01 and 2026-06-01; 3,288 checks across 3 frameworks and 137 dates produce zero vacuous passes; 480 logged entries all reproduce against untouched rules, including 112 made when nothing was in force; a version edited in place is `rules_changed`, a withdrawn one is `no_longer_covered`, and a changed verdict under identical rules is `diverged`; and seven malformed rule files are each rejected with a reason.

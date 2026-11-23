@@ -29,15 +29,15 @@ jobs:
         run: pytest -q --cov=compliance_check --cov-report=term-missing
 
       - name: Doctor runs with no credentials and no network
-        run: compliance-check doctor
+        run: asof doctor
 
       - name: The shipped rule files load
-        run: compliance-check frameworks
+        run: asof frameworks
 
       - name: The shipped sample data behaves as documented
         run: |
           # Six of eight records need attention, so a non-zero exit is expected here.
-          compliance-check run -i data/sample_records.csv -f US --as-of 2025-06-01 \
+          asof run -i data/sample_records.csv -f US --as-of 2025-06-01 \
             -o /tmp/ci-out --audit-log /tmp/ci-audit.jsonl --no-details || true
           python -c "
           import json
@@ -54,9 +54,9 @@ jobs:
         # during a coverage gap as a change, so an untouched rule set produced 112 false
         # alarms out of 480. If that ever comes back, this step fails.
         run: |
-          compliance-check run -i data/sample_records.csv -f EU --as-of 2024-06-01 \
+          asof run -i data/sample_records.csv -f EU --as-of 2024-06-01 \
             -o /tmp/ci-out2 --audit-log /tmp/ci-audit.jsonl --no-details || true
-          output=$(compliance-check replay --audit-log /tmp/ci-audit.jsonl)
+          output=$(asof replay --audit-log /tmp/ci-audit.jsonl)
           echo "$output"
           echo "$output" | grep -q "diverged" && exit 1
           echo "$output" | grep -q "no_longer_covered" && exit 1

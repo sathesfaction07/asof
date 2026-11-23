@@ -233,7 +233,7 @@ def _write_excel(results: list[CheckResult], directory: Path) -> list[Path]:
         from openpyxl import Workbook
     except ImportError as exc:  # pragma: no cover - exercised by the error path only
         raise RecordFileError(
-            "Excel output needs openpyxl. Install it with: pip install 'compliance-check[excel]'"
+            "Excel output needs openpyxl. Install it with: pip install 'asof[excel]'"
         ) from exc
 
     book = Workbook()

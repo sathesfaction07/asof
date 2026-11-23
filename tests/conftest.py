@@ -28,7 +28,7 @@ from compliance_check.rules.schema import RuleSet
 #: Excel output is an optional extra, so its tests skip rather than fail on a default install.
 requires_openpyxl = pytest.mark.skipif(
     importlib.util.find_spec("openpyxl") is None,
-    reason="openpyxl is optional: pip install 'compliance-check[excel]'",
+    reason="openpyxl is optional: pip install 'asof[excel]'",
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
