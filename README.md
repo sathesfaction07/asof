@@ -250,7 +250,7 @@ This matters more than the size of the fix. `replay` is meant to be a CI gate, a
 
 **An empty composite is a load-time error.** `all_of: []` passes vacuously under Python's `all`. A requirement that always passes because somebody deleted its last clause is the worst possible failure, so the file is rejected rather than the requirement quietly becoming a no-op.
 
-**No model, and this is the first project here without one.** Four other projects in this portfolio have a local-plus-hosted-model backend, so that pattern is not the contribution. More to the point, a compliance verdict has to be reproducible from its inputs and attributable to a cited requirement. A model in this path would make the audit log unfalsifiable, which is the opposite of what it is for. The rules being *data* is what gives the flexibility a model would otherwise be reached for.
+**No model, and this is the first project here without one.** Four sibling projects have a local-plus-hosted-model backend, so that pattern is not the contribution. More to the point, a compliance verdict has to be reproducible from its inputs and attributable to a cited requirement. A model in this path would make the audit log unfalsifiable, which is the opposite of what it is for. The rules being *data* is what gives the flexibility a model would otherwise be reached for.
 
 **Contradiction detection is structural, and shallow.** A rule set can be inconsistent in ways this does not catch — two requirements that cannot both be satisfied, for instance. Catching that needs a satisfiability check over the predicate language, which is out of scope here. What is caught is the mechanical class: overlapping intervals, zero-length intervals, duplicate ids, unknown operators, empty composites.
 
